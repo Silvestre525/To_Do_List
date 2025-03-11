@@ -17,14 +17,14 @@ with app.app_context():
 
 
 #Get
-@app.route('/productos',methods=['GET'])
+@app.route('api/productos',methods=['GET'])
 def getProducto():
     producto = Producto.query.all()
-    return jsonify([{'id':p.id,'nombre ':p.nombre,'precio ':p.precio} for p in producto])
+    return jsonify([{'id':p.id,'nombre ':p.nombre,'precio ':p.precio} for p in producto])   
 
 
 #Get for Id
-@app.route('/producto/<int:id>',methods=['GET'])
+@app.route('/productos/<int:id>',methods=['GET'])
 def getIdProducto(id):
     producto = Producto.query.get(id)
     if producto:
@@ -34,18 +34,18 @@ def getIdProducto(id):
 
 
 #Post
-@app.route('/addProducto',methods=['POST'])
+@app.route('api/productos/post',methods=['POST'])
 def postProducto():
     data = request.get_json()
     new_producto = Producto(nombre=data['nombre'],precio=data['precio'])
     db.session.add(new_producto)
     db.session.commit()
 
-    return jsonify({'id':new_producto.id}),201
+    return jsonify({'id':new_producto.id}),201J
 
 
 #Delete
-@app.route('/delete_productos/<int:id>',methods=['DELETE'])
+@app.route('api/productos/delete/<int:id>',methods=['DELETE'])
 def deleteProducto(id):
     producto = Producto.query.get(id)
 
@@ -58,7 +58,7 @@ def deleteProducto(id):
 
 
 #Path
-@app.route('/edit_producto/<int:id>',methods=['PATCH'])
+@app.route('api/productos/edit/<int:id>',methods=['PATCH'])
 def editProducto(id):
     prod = Producto.query.get(id)
 
