@@ -9,7 +9,7 @@ db = SQLAlchemy(app)
 class Producto(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     nombre = db.Column(db.String(100),nullable=False)
-    precio = db.Column(db.Integer,nullable=False)
+    precio = db.Column(db.Float,nullable=False)
 
 
 with app.app_context():
@@ -17,53 +17,57 @@ with app.app_context():
 
 
 #Get
-@app.route('api/productos',methods=['GET'])
+@app.route('/api/productos',methods=['GET'])
 def getProducto():
-    producto = Producto.query.all()
-    return jsonify([{'id':p.id,'nombre ':p.nombre,'precio ':p.precio} for p in producto])   
+    productos = Producto.query.all()
+    return jsonify([{'id':p.id,'nombre ':p.nombre,'precio ':p.precio} for p in productos])   
 
 
 #Get for Id
-@app.route('/productos/<int:id>',methods=['GET'])
+@app.route('/api/productos/<int:id>',methods=['GET'])
 def getIdProducto(id):
-    producto = Producto.query.get(id)
+    producto = db.session.get(Producto,id)
     if producto:
         return jsonify ({'id':producto.id, 'nombre':producto.nombre,'precio': producto.precio})
     else:
-        return jsonify({"Error producto no encontrados"}), 404
+        return jsonify({"error":"Producto no encontrado"}), 404
 
 
 #Post
-@app.route('api/productos/post',methods=['POST'])
+@app.route('/api/productos/add',methods=['POST'])
 def postProducto():
     data = request.get_json()
-    new_producto = Producto(nombre=data['nombre'],precio=data['precio'])
+    if not data or 'nombre' not in data or 'precio' not in data:
+        return jsonify({"error": "Datos incompletos"}), 400
+
+    new_producto = Producto(nombre=data['nombre'], precio=data['precio'])
     db.session.add(new_producto)
     db.session.commit()
 
-    return jsonify({'id':new_producto.id}),201J
+    return jsonify({'id': new_producto.id}), 201
+
 
 
 #Delete
-@app.route('api/productos/delete/<int:id>',methods=['DELETE'])
+@app.route('/api/productos/delete/<int:id>',methods=['DELETE'])
 def deleteProducto(id):
-    producto = Producto.query.get(id)
+    producto = db.session.get(Producto,id)
 
     if not producto:
-        return jsonify({'Error producto no encontrado'}), 404
+        return jsonify({'error':'Error producto no encontrado'}), 404
     
     db.session.delete(producto)
     db.session.commit()
-    return jsonify({'Producto eliminado con exito'}), 201
+    return jsonify({'msg':'Producto eliminado con exito'}), 201
 
 
 #Path
-@app.route('api/productos/edit/<int:id>',methods=['PATCH'])
+@app.route('/api/productos/edit/<int:id>',methods=['PATCH'])
 def editProducto(id):
-    prod = Producto.query.get(id)
-
+    prod = db.session.get(Producto,id)
+    
     if not prod:
-        return jsonify({'Error producto no encontrado'}), 404
+        return jsonify({'error':'Producto no encontrado'}), 404
 
     data = request.get_json()
 

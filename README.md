@@ -1,19 +1,37 @@
-# To-Do List App con Flask, JSONify y SQLAlchemy
+# CRUD de Productos con Flask, JSONify y SQLAlchemy
 
-¡Bienvenido a mi repositorio! Este proyecto es una aplicación simple de lista de tareas (To-Do List) desarrollada utilizando Flask, JSONify y SQLAlchemy. El objetivo principal de este proyecto fue practicar y mejorar mis habilidades en el desarrollo web con Python, específicamente en el uso de Flask y la integración con bases de datos mediante SQLAlchemy.
+¡Bienvenido a mi repositorio! Este proyecto es una aplicación CRUD (Crear, Leer, Actualizar y Eliminar) de productos desarrollada con Flask, JSONify y SQLAlchemy. Su objetivo es practicar el desarrollo de APIs RESTful con Flask y la integración con bases de datos mediante SQLAlchemy.
 
 ## Características
 
-- **Crear tareas**: Añade nuevas tareas a tu lista.
-- **Ver tareas**: Visualiza todas las tareas pendientes.
-- **Actualizar tareas**: Marca las tareas como completadas o edita su contenido.
-- **Eliminar tareas**: Elimina tareas que ya no necesitas.
-- **Persistencia de datos**: Las tareas se almacenan en una base de datos SQLite utilizando SQLAlchemy.
-- **API RESTful**: La aplicación expone endpoints JSON para interactuar con las tareas.
+- **Crear productos**: Agrega nuevos productos con nombre y precio.
+- **Ver productos**: Obtén una lista de todos los productos disponibles.
+- **Actualizar productos**: Modifica los datos de un producto existente.
+- **Eliminar productos**: Borra productos de la base de datos.
+- **Persistencia de datos**: Se utiliza una base de datos SQLite mediante SQLAlchemy.
+- **API RESTful**: La aplicación expone endpoints JSON para interactuar con los productos.
 
 ## Tecnologías Utilizadas
 
 - **Flask**: Framework web ligero para Python.
 - **SQLAlchemy**: ORM (Object-Relational Mapping) para interactuar con la base de datos.
 - **JSONify**: Convertir respuestas de Flask a formato JSON.
-- **SQLite**: Base de datos ligera utilizada para almacenar las tareas.
+- **SQLite**: Base de datos ligera utilizada para almacenar los productos.
+
+## 📌 Instalación
+
+1. Clona este repositorio:
+   ```bash
+   git clone https://github.com/tu_usuario/tu_repositorio.git
+   cd tu_repositorio
+
+
+
+
+| Método | Endpoint                             | Descripción                             |
+|--------|--------------------------------------|-----------------------------------------|
+| `GET`  | `/api/productos`                     | Obtiene todos los productos.            |
+| `GET`  | `/api/productos/<int:id>`            | Obtiene un producto por ID.             |
+| `POST` | `/api/productos/add`                 | Crea un nuevo producto.                 |
+| `DELETE` | `/api/productos/delete/<int:id>`   | Elimina un producto por ID.             |
+| `PATCH` | `/api/productos/edit/<int:id>`      | Actualiza un producto por ID.           |
